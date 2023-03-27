@@ -21,6 +21,7 @@
 ## Just10Minutes 서버 구조
 TBD
 <br>
+<br>
 ## Common Rule
 
 <br>
