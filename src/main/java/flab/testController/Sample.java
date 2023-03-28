@@ -12,7 +12,7 @@ public class Sample {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello World1";
+        return "Hello World2";
     }
 
     @GetMapping("/helloDB")
