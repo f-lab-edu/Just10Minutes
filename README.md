@@ -32,4 +32,5 @@ TBD
 - chore : 빌드 업무 수정, 패키지 매니저 수정
 <br>
 
-githubflow test builder2
+githubflow test builder to slack
+
