@@ -14,6 +14,7 @@ public class Sample {
     public String hello() {
         return "Hello World2";
     }
+    failed
 
     @GetMapping("/helloDB")
     public String helloDB() {
