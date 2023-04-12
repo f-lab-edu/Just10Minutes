@@ -17,7 +17,7 @@
     </insert>
 
     <select id="findById" parameterType="java.lang.String" resultType="flab.just10minutes.member.domain.Member">
-        SELECT id, name, address, balance FROM MEMBER
+        SELECT id, name, password, address, balance FROM MEMBER
         WHERE MEMBER.id = #{id}
     </select>
 
