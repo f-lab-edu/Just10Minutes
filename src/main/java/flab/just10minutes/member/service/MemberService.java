@@ -10,5 +10,5 @@ public interface MemberService {
 
     void checkDuplicateId(String id);
 
-    void isValidMember(String id, String password);
+
 }

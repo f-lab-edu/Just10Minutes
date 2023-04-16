@@ -37,7 +37,8 @@ public class DatabaseConfig {
 
     @Bean
     public DataSource dataSource() {
-        return new HikariDataSource(hikariConfig());
+        DataSource dataSource = new HikariDataSource(hikariConfig());
+        return dataSource;
     }
 
     @Bean
