@@ -9,7 +9,7 @@ import java.util.Optional;
 public class Member {
 
     @Getter private String id;
-    private String password;
+    @Getter private String password;
     @Getter private String name;
     @Getter private String address;
     @Getter private Long balance;

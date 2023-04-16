@@ -43,4 +43,15 @@ public class MemberServiceImpl implements MemberService{
         Optional.ofNullable(memberDao.findId(id))
                 .ifPresent(action -> {throw new IllegalStateException("해당 아이디가 이미 존재 합니다.");});
     }
+
+    @Override
+    public void isValidMember(String id, String password) {
+        Member member = findMemberById(id);
+        log.info(member.getPassword());
+
+        if (!member.getPassword().equals(password)) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+    }
 }
