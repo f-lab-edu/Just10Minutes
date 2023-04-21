@@ -1,21 +1,38 @@
 package flab.just10minutes.member.domain;
 
 import lombok.*;
+import org.springframework.util.Assert;
 
-import java.util.Optional;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Member {
 
-    @Getter private String id;
-    @Getter private String password;
-    @Getter private String name;
-    @Getter private String address;
-    @Getter private Long balance;
+    private Long openId;
+    private String id;
+    private String password;
+    private String name;
+    private String address;
+    private Long balance;
 
-    public Optional<String> getOptionalId() {
-       return Optional.ofNullable(this.id);
+    @Builder
+    public Member(String id, String password, String name, String address) {
+        Assert.notNull(id, "id must not be null");
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.address = address;
+        this.balance = 0L;
     }
+
+
+    @Builder(builderClassName = "AuthenticateBuilder", builderMethodName = "AuthenticateBuilder")
+    public Member(String id, String password) {
+        Assert.notNull(id, "id must not be null");
+        Assert.notNull(password, "password must not be null");
+        this.id = id;
+        this.password = password;
+    }
+
 
 }

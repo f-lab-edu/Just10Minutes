@@ -1,9 +1,8 @@
 package flab.just10minutes.member.controller;
 
+import flab.just10minutes.member.domain.Member;
 import flab.just10minutes.member.dto.AddRequest;
-import flab.just10minutes.member.dto.CommonResponse;
-import flab.just10minutes.member.dto.LoginRequest;
-import flab.just10minutes.member.service.LoginService;
+import flab.just10minutes.member.dto.MemberInfoResponse;
 import flab.just10minutes.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,46 +20,24 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
-    private final LoginService loginService;
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addMember(@RequestBody @Valid AddRequest addMember) {
-        memberService.saveMember(addMember);
+    public ResponseEntity<HttpStatus> addMember(@RequestBody @Valid AddRequest addRequest) {
+        memberService.saveMember(addRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommonResponse> getMemberProfile(@PathVariable String id) {
-        CommonResponse response = CommonResponse.of(memberService.findMemberById(id));
-        return new ResponseEntity<CommonResponse>(response, HttpStatus.OK);
+    public ResponseEntity<MemberInfoResponse> getMemberProfile(@PathVariable String id) {
+        Member member = memberService.findMemberById(id);
+        MemberInfoResponse response = MemberInfoResponse.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .address(member.getAddress())
+                .balance(member.getBalance())
+                .build();
+        return new ResponseEntity<MemberInfoResponse>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody @Valid LoginRequest loginRequest, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            throw new IllegalStateException("이미 로그인되어 있습니다.");
-        }
-        memberService.isValidMember(loginRequest.getId(), loginRequest.getPassword());
-        loginService.logIn(loginRequest);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<HttpStatus> logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            throw new IllegalStateException("로그인이 필요합니다.");
-        }
-        loginService.logOut((String)session.getAttribute("loginMember"));
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/session")
-    public ResponseEntity<String> getSession(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        String memberId = (String)session.getAttribute("loginMember");
-        return new ResponseEntity<>(memberId, HttpStatus.OK);
-    }
 
 }

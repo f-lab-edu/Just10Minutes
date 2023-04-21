@@ -1,10 +1,13 @@
 package flab.just10minutes.member.dto;
 
-
+import flab.just10minutes.member.domain.Member;
 import jakarta.validation.constraints.NotNull;
-import lombok.Value;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Value
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AddRequest {
 
     @NotNull
@@ -14,5 +17,13 @@ public class AddRequest {
     @NotNull
     private final String name;
     private final String address;
-    private final Long balance;
+
+    public static Member toMemberDomain(AddRequest addRequest) {
+        return Member.builder()
+                .id(addRequest.id)
+                .password(addRequest.password)
+                .name(addRequest.name)
+                .address(addRequest.address)
+                .build();
+    }
 }

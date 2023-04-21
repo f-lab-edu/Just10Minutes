@@ -11,32 +11,27 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class MemberServiceImpl implements MemberService{
 
     private final MemberDao memberDao;
 
 
     @Override
-    public void saveMember(AddRequest addMember) {
-        checkDuplicateId(addMember.getId());
-        Member newMember = new Member(
-                addMember.getId(),
-                addMember.getPassword(),
-                addMember.getName(),
-                addMember.getAddress(),
-                0L);
-        memberDao.save(newMember);
+    public void saveMember(AddRequest addRequest) {
+        Member newMember = AddRequest.toMemberDomain(addRequest);
+        checkDuplicateId(newMember.getId());
+        int insertCount = memberDao.save(newMember);
+        if (insertCount != 1) {
+            throw new IllegalStateException("회원가입 실패");
+        }
     }
 
     @Override
     public Member findMemberById(String id) {
         Member member = memberDao.findById(id);
-        member.getOptionalId().orElseThrow(() -> new IllegalStateException("해당 아이디가 존재하지 않습니다."));
+        Optional.ofNullable(member.getId()).orElseThrow(() -> new IllegalStateException("해당 아이디가 존재하지 않습니다."));
         return member;
     }
-
-
 
     @Override
     public void checkDuplicateId(String id) {
@@ -45,13 +40,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void isValidMember(String id, String password) {
-        Member member = findMemberById(id);
-        log.info(member.getPassword());
-
+    public boolean isValidMember(String id, String password) {
+        Member member = memberDao.findById(id);
         if (!member.getPassword().equals(password)) {
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+            throw new IllegalStateException("아이디 혹은 비밀번호를 다시 확인해주세요.");
         }
-
+        return true;
     }
 }
