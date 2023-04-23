@@ -13,5 +13,6 @@ public interface MemberDao {
     Member findById(String id);
     String findId(String id);
     Member findByOpenId(Long id);
+    int update(Member member);
 
 }
