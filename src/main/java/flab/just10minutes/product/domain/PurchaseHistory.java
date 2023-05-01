@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -36,10 +35,7 @@ public class PurchaseHistory {
     }
 
     public Boolean isAlreadyPurchased(PurchaseActivity activity) {
-        return Optional.ofNullable(this.activities
-                .stream()
-                .filter(v -> v.equals(activity))
-                .findAny()).isPresent();
+        return this.activities.contains(activity);
     }
 }
 

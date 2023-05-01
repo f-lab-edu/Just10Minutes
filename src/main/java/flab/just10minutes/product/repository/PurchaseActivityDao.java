@@ -10,17 +10,17 @@ import java.util.List;
 @Mapper
 public interface PurchaseActivityDao {
 
-    List<PurchaseActivity> findByProductId(Long id);
-
-    List<PurchaseActivity> findByMemberId(Long id);
-
-    PurchaseActivity findById(Long id);
-
     int save(PurchaseActivity activity);
 
-    int update(PurchaseActivity activity);
-
     int delete(Long id);
+
+    List<PurchaseActivity> findByProductId(Long productId);
+
+    List<PurchaseActivity> findByMemberUniqueId(Long memberUniqueId);
+
+   // PurchaseActivity findById(Long id);
+
+
 
 
 

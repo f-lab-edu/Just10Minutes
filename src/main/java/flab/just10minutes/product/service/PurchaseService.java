@@ -8,6 +8,6 @@ public interface PurchaseService {
     void purchase(PurchaseRequest purchaseRequest);
 
     PurchaseHistory findProductHistory(Long id);
-//
-//    PurchaseHistory findMemberHistory(Long openId);
+
+    PurchaseHistory findMemberHistory(Long memberUniqueId);
 }

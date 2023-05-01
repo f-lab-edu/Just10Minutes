@@ -2,13 +2,15 @@ package flab.just10minutes.product.service;
 
 import flab.just10minutes.product.domain.Product;
 import flab.just10minutes.product.dto.AddProductRequest;
-import flab.just10minutes.product.dto.ProductDto;
 import flab.just10minutes.product.repository.ProductDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Service
+
 @RequiredArgsConstructor
+@Slf4j
+@Service
 public class ProductServiceImpl implements ProductService{
 
     private final ProductDao productDao;

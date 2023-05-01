@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="flab.just10minutes.product.repository.ProductDao">
+    <insert id="save" parameterType="java.util.HashMap">
+        INSERT INTO PRODUCT
+        (status,
+        name,
+        description,
+        price,
+        totalStock,
+        purchasedStock,
+        personalLimitAmount,
+        startDealTime,
+        endDealTime
+        )
+        VALUES
+        (
+        #{status},
+        #{name},
+        #{description},
+        #{price},
+        #{totalStock},
+        #{purchasedStock},
+        #{personalLimitAmount},
+        #{startDealTime},
+        #{endDealTime}
+        )
+    </insert>
+
+    <select id="findById" parameterType="java.lang.Long" resultType="flab.just10minutes.product.domain.Product">
+        SELECT
+        status
+        , productId
+        , name
+        , description
+        , price
+        , totalStock
+        , purchasedStock
+        , personalLimitAmount
+        , startDealTime
+        , endDealTime
+        FROM PRODUCT
+        WHERE productId = #{productId}
+    </select>
+
+    <update id="updatePurchasedStock" parameterType="flab.just10minutes.product.domain.Product">
+        UPDATE PRODUCT
+        SET
+        status = #{status},
+        purchasedStock = #{purchasedStock}
+        WHERE productId = #{productId}
+    </update>
+
+</mapper>

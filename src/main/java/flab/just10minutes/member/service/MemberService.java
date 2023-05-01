@@ -1,14 +1,14 @@
 package flab.just10minutes.member.service;
 
 import flab.just10minutes.member.domain.Member;
-import flab.just10minutes.member.dto.AddRequest;
+import flab.just10minutes.member.dto.AddMemberRequest;
 
 public interface MemberService {
-    void saveMember(AddRequest addMember);
+    void saveMember(AddMemberRequest addMember);
 
     Member findMemberById(String id);
 
     void checkDuplicateId(String id);
 
-    boolean isValidMember(String id, String password);
+    void existMemberValidate(String id, String password);
 }

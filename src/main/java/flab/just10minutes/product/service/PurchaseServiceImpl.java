@@ -2,7 +2,6 @@ package flab.just10minutes.product.service;
 
 import flab.just10minutes.member.domain.Member;
 import flab.just10minutes.member.repository.MemberDao;
-import flab.just10minutes.member.service.LoginService;
 import flab.just10minutes.product.domain.Product;
 import flab.just10minutes.product.domain.PurchaseActivity;
 import flab.just10minutes.product.domain.PurchaseHistory;
@@ -11,36 +10,40 @@ import flab.just10minutes.product.dto.PurchaseRequest;
 import flab.just10minutes.product.repository.ProductDao;
 import flab.just10minutes.product.repository.PurchaseActivityDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PurchaseServiceImpl implements PurchaseService{
 
     private final ProductDao productDao;
     private final PurchaseActivityDao purchaseActivityDao;
     private final MemberDao memberDao;
-    private final LoginService loginService;
+
 
     @Override
+    @Transactional(rollbackFor = {BadSqlGrammarException.class})
     public void purchase(PurchaseRequest purchaseRequest) {
-        loginService.loginValidate();
-
-        Member member = memberDao.findByOpenId(purchaseRequest.getMemberOpenId());
+        Member member = memberDao.findByMemberUniqueId(purchaseRequest.getMemberUniqueId());
         Product product = productDao.findById(purchaseRequest.getProductId());
 
         PurchaseActivity activity = validatePurchaseRule(product, member, purchaseRequest);
 
+
         Product updateProduct = product.addPurchasedStock(purchaseRequest.getAmount());
-        int updateProductCount = productDao.update(updateProduct);
+        int updateProductCount = productDao.updatePurchasedStock(updateProduct);
         if (updateProductCount != 1) {
             throw new IllegalStateException("상품 정보 수정 오류");
         }
 
         Member updateMember = member.minusBalance(product.getPrice());
-        int updateMemberCount = memberDao.update(updateMember);
+        int updateMemberCount = memberDao.updateMemberBalance(updateMember);
         if (updateMemberCount != 1) {
             throw new IllegalStateException("회원 정보 수정 오류");
         }
@@ -49,25 +52,24 @@ public class PurchaseServiceImpl implements PurchaseService{
         if (insertCount != 1) {
             throw new IllegalStateException("구매 이력 등록 오류");
         }
+
     }
 
     @Override
-    public PurchaseHistory findProductHistory(Long id) {
-        List<PurchaseActivity> activities =  purchaseActivityDao.findByProductId(id);
+    public PurchaseHistory findProductHistory(Long productId) {
+        List<PurchaseActivity> activities =  purchaseActivityDao.findByProductId(productId);
         return PurchaseHistory.builder()
                             .activities(activities)
                             .build();
     }
-//
-//    @Override
-//    public PurchaseHistory findMemberHistory(Long openId) {
-//        List<PurchaseActivity> activities = purchaseActivityDao.findByMemberId(openId);
-//        return PurchaseHistory.builder()
-//                            .activities(activities)
-//                            .build();
-//    }
 
-
+    @Override
+    public PurchaseHistory findMemberHistory(Long memberUniqueId) {
+        List<PurchaseActivity> activities = purchaseActivityDao.findByMemberUniqueId(memberUniqueId);
+        return PurchaseHistory.builder()
+                            .activities(activities)
+                            .build();
+    }
 
     private PurchaseActivity validatePurchaseRule(Product product, Member member, PurchaseRequest purchaseRequest) {
         SaleStatus status =  product.getStatus();
@@ -87,8 +89,8 @@ public class PurchaseServiceImpl implements PurchaseService{
         }
 
         PurchaseActivity activity =  PurchaseActivity.builder()
-                                                    .member(member)
-                                                    .product(product)
+                                                    .memberUniqueId(member.getUniqueId())
+                                                    .productId(product.getProductId())
                                                     .amount(purchaseRequest.getAmount())
                                                     .build();
 

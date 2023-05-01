@@ -84,17 +84,22 @@ public class Product {
         if (isOver) {
             status = SaleStatus.SOLDOUT;
         }
-        return Product.AddProductBuilder()
+        return Product.UpdateProductBuilder()
                 .status(status)
-                .name(this.name)
-                .description(this.description)
-                .price(this.price)
-                .totalStock(this.totalStock)
-                .personalLimitAmount(this.personalLimitAmount)
-                .startDealTime(this.startDealTime)
-                .endDealTime(this.endDealTime)
+                .productId(this.productId)
                 .purchasedStock(stock)
                 .build();
+//        return Product.AddProductBuilder()
+//                .status(status)
+//                .name(this.name)
+//                .description(this.description)
+//                .price(this.price)
+//                .totalStock(this.totalStock)
+//                .personalLimitAmount(this.personalLimitAmount)
+//                .startDealTime(this.startDealTime)
+//                .endDealTime(this.endDealTime)
+//                .purchasedStock(stock)
+//                .build();
     }
 
 

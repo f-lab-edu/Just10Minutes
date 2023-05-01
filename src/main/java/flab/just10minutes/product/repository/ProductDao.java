@@ -4,8 +4,6 @@ import flab.just10minutes.product.domain.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 @Mapper
 public interface ProductDao {
@@ -13,9 +11,9 @@ public interface ProductDao {
 
     Product findById(Long id);
 
-    int update(Product product);
+    int updatePurchasedStock(Product product);
 
-    List<Product> findAll();
+   // List<Product> findAll();
 
 
 }

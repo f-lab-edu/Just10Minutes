@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class PurchaseRequest {
 
-    private Long ProductId;
+    private Long productId;
 
-    private Long MemberOpenId;
+    private Long memberUniqueId;
 
     private Long amount;
 

@@ -1,5 +1,7 @@
 package flab.just10minutes.product.controller;
 
+import flab.just10minutes.aop.MemberLoginCheck;
+import flab.just10minutes.member.service.LoginService;
 import flab.just10minutes.product.dto.PurchaseRequest;
 import flab.just10minutes.product.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
+    private final LoginService loginService;
 
+    @MemberLoginCheck
     @PostMapping
     public ResponseEntity<HttpStatus> purchase(@RequestBody PurchaseRequest purchaseRequest) {
+        loginService.loginValidate();
         purchaseService.purchase(purchaseRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }

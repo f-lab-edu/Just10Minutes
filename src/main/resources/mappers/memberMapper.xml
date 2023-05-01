@@ -17,7 +17,7 @@
     </insert>
 
     <select id="findById" parameterType="java.lang.String" resultType="flab.just10minutes.member.domain.Member">
-        SELECT openId, id, name, password, address, balance FROM MEMBER
+        SELECT uniqueId, id, name, password, address, balance FROM MEMBER
         WHERE MEMBER.id = #{id}
     </select>
 
@@ -25,4 +25,15 @@
         SELECT id FROM MEMBER
         WHERE MEMBER.id = #{id}
     </select>
+
+    <select id="findByMemberUniqueId" parameterType="java.lang.Long" resultType="flab.just10minutes.member.domain.Member">
+        SELECT uniqueId, id, password, name, address, balance FROM MEMBER
+        WHERE MEMBER.uniqueId = #{uniqueId}
+    </select>
+
+    <update id="updateMemberBalance"  parameterType="java.util.HashMap">
+        UPDATE MEMBER
+        SET balance = #{balance}
+        WHERE uniqueId = #{uniqueId}
+    </update>
 </mapper>
