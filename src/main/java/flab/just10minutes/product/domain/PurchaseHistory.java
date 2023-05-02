@@ -12,30 +12,27 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class PurchaseHistory {
-    private List<PurchaseActivity> activities;
+    private List<Purchase> purchases;
 
     @Builder
-    public PurchaseHistory(List<PurchaseActivity> activities) {
-        this.activities = activities;
+    public PurchaseHistory(List<Purchase> purchases) {
+        this.purchases = purchases;
     }
 
     @Builder
-    public PurchaseHistory(PurchaseActivity... activities) {
-        this.activities = new ArrayList<>(Arrays.asList(activities));
+    public PurchaseHistory(Purchase... purchases) {
+        this.purchases = new ArrayList<>(Arrays.asList(purchases));
     }
 
-    public void addHistory(PurchaseActivity... activities) {
-        for(PurchaseActivity activity : activities) {
-            this.activities.add(activity);
+    public void addHistory(Purchase... purchases) {
+        for(Purchase purchase : purchases) {
+            this.purchases.add(purchase);
         }
     }
 
     public Long getActivitiesCount() {
-        return this.activities.stream().count();
+        return this.purchases.stream().count();
     }
 
-    public Boolean isAlreadyPurchased(PurchaseActivity activity) {
-        return this.activities.contains(activity);
-    }
 }
 

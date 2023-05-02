@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ProductDto {
-
-
     private SaleStatus status;
     private Long productId;
     private String name;

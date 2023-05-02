@@ -6,7 +6,7 @@ import flab.just10minutes.product.domain.Product;
 
 import java.time.LocalDateTime;
 
-public class PurchaseActivityDto {
+public class PurchaseDto {
 
     private Long purchaseId;
     private Member member;

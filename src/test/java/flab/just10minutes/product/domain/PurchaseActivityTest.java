@@ -13,9 +13,9 @@ class PurchaseActivityTest {
     @Test
     @DisplayName("ArrayList test")
     void test() {
-        List<PurchaseActivity> activityList = new ArrayList<>();
+        List<Purchase> activityList = new ArrayList<>();
         for (int i = 1; i < 1000000; i++) {
-            activityList.add(PurchaseActivity.builder()
+            activityList.add(Purchase.builder()
                     .memberUniqueId(Long.parseLong(String.valueOf(i)))
                     .productId(1L)
                     .amount(1L)
@@ -24,7 +24,7 @@ class PurchaseActivityTest {
         Random r = new Random();
         Long randomMemberId = r.nextLong(1000000);
 
-        PurchaseActivity newAct = PurchaseActivity.builder()
+        Purchase newAct = Purchase.builder()
                 .memberUniqueId(randomMemberId)
                 .productId(1L)
                 .amount(1L)
@@ -43,9 +43,9 @@ class PurchaseActivityTest {
     @Test
     @DisplayName("HashMap test")
     void test2() {
-        Map<PurchaseActivity, Long> activityMap = new HashMap<>();
+        Map<Purchase, Long> activityMap = new HashMap<>();
         for (int i = 1; i < 1000000; i++) {
-            activityMap.put(PurchaseActivity.builder()
+            activityMap.put(Purchase.builder()
                     .memberUniqueId(Long.parseLong(String.valueOf(i)))
                     .productId(1L)
                     .amount(1L)
@@ -54,7 +54,7 @@ class PurchaseActivityTest {
         Random r = new Random();
         Long randomMemberId = r.nextLong(1000000);
 
-        PurchaseActivity newAct = PurchaseActivity.builder()
+        Purchase newAct = Purchase.builder()
                 .memberUniqueId(randomMemberId)
                 .productId(1L)
                 .amount(1L)

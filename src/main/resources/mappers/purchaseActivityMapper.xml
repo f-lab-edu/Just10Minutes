@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="flab.just10minutes.product.repository.PurchaseActivityDao">
+<mapper namespace="flab.just10minutes.product.repository.PurchaseDao">
     <insert id="save" parameterType="java.util.HashMap">
-        INSERT INTO PURCHASEACTIVITY
+        INSERT INTO PURCHASE
         (memberUniqueId,
         productId,
         amount,
@@ -15,29 +15,37 @@
     </insert>
 
     <delete id="delete" parameterType="java.lang.Long">
-        DELETE FROM PURCHASEACTIVITY
+        DELETE FROM PURCHASE
         WHERE purchaseId = #{purchaseId}
     </delete>
 
-    <select id="findByProductId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.domain.PurchaseActivity">
+    <select id="findByPurchase" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+        count(purchaseId)
+        FROM PURCHASE
+        WHERE memberUniqueId = #{memberUniqueId}
+        AND productId = #{productId}
+    </select>
+
+    <select id="findByProductId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.domain.Purchase">
         SELECT
         purchaseId,
         memberUniqueId,
         productId,
         amount,
         timestamp
-        FROM PURCHASEACTIVITY
+        FROM PURCHASE
         WHERE productId = #{productId}
     </select>
 
-    <select id="findByMemberUniqueId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.domain.PurchaseActivity">
+    <select id="findByMemberUniqueId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.domain.Purchase">
         SELECT
         purchaseId,
         memberUniqueId,
         productId,
         amount,
         timestamp
-        FROM PURCHASEACTIVITY
+        FROM PURCHASE
         WHERE memberUniqueId = #{memberUniqueId}
     </select>
 </mapper>

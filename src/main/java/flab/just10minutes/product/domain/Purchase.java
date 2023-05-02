@@ -1,9 +1,7 @@
 package flab.just10minutes.product.domain;
 
-import flab.just10minutes.member.domain.Member;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(exclude = {"purchaseId", "amount", "timestamp"})
-public class PurchaseActivity {
+public class Purchase {
 
     private Long purchaseId;
     @NotNull
@@ -23,7 +21,7 @@ public class PurchaseActivity {
     private LocalDateTime timestamp;
 
     @Builder
-    public PurchaseActivity(Long memberUniqueId, Long productId, Long amount) {
+    public Purchase(Long memberUniqueId, Long productId, Long amount) {
         this.memberUniqueId = memberUniqueId;
         this.productId = productId;
         this.amount = amount;
