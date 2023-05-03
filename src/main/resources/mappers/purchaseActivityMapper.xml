@@ -27,25 +27,29 @@
         AND productId = #{productId}
     </select>
 
-    <select id="findByProductId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.domain.Purchase">
-        SELECT
-        purchaseId,
-        memberUniqueId,
-        productId,
-        amount,
-        timestamp
-        FROM PURCHASE
-        WHERE productId = #{productId}
+    <select id="findByProductId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.dto.PurchaseDto">
+        SELECT pr.purchaseId purchaseId
+            , p.name productName
+            , p.price price
+            , pr.amount amount
+            , m.id memberId
+            , pr.timestamp timestamp
+        FROM PURCHASE pr
+        INNER JOIN MEMBER m ON m.uniqueId = pr.memberUniqueId
+        INNER JOIN PRODUCT p ON p.productId = pr.productId
+        WHERE pr.productId = #{productId};
     </select>
 
-    <select id="findByMemberUniqueId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.domain.Purchase">
-        SELECT
-        purchaseId,
-        memberUniqueId,
-        productId,
-        amount,
-        timestamp
-        FROM PURCHASE
-        WHERE memberUniqueId = #{memberUniqueId}
+    <select id="findByMemberUniqueId" parameterType="java.lang.Long"  resultType="flab.just10minutes.product.dto.PurchaseDto">
+        SELECT pr.purchaseId purchaseId
+        , p.name productName
+        , p.price price
+        , pr.amount amount
+        , m.id memberId
+        , pr.timestamp timestamp
+        FROM PURCHASE pr
+        INNER JOIN MEMBER m ON m.uniqueId = pr.memberUniqueId
+        INNER JOIN PRODUCT p ON p.productId = pr.productId
+        WHERE pr.memberUniqueId = #{memberUniqueId};
     </select>
 </mapper>

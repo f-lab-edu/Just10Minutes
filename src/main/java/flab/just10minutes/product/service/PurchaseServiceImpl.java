@@ -6,6 +6,7 @@ import flab.just10minutes.product.domain.Product;
 import flab.just10minutes.product.domain.Purchase;
 import flab.just10minutes.product.domain.PurchaseHistory;
 import flab.just10minutes.product.domain.SaleStatus;
+import flab.just10minutes.product.dto.PurchaseDto;
 import flab.just10minutes.product.dto.PurchaseRequest;
 import flab.just10minutes.product.repository.ProductDao;
 import flab.just10minutes.product.repository.PurchaseDao;
@@ -56,19 +57,13 @@ public class PurchaseServiceImpl implements PurchaseService{
     }
 
     @Override
-    public PurchaseHistory findProductHistory(Long productId) {
-        List<Purchase> purchases =  purchaseDao.findByProductId(productId);
-        return PurchaseHistory.builder()
-                            .purchases(purchases)
-                            .build();
+    public List<PurchaseDto>  findProductHistory(Long productId) {
+        return purchaseDao.findByMemberUniqueId(productId);
     }
 
     @Override
-    public PurchaseHistory findMemberHistory(Long memberUniqueId) {
-        List<Purchase> purchases = purchaseDao.findByMemberUniqueId(memberUniqueId);
-        return PurchaseHistory.builder()
-                            .purchases(purchases)
-                            .build();
+    public List<PurchaseDto>  findMemberHistory(Long memberUniqueId) {
+        return purchaseDao.findByMemberUniqueId(memberUniqueId);
     }
 
     private Purchase validatePurchaseRule(Product product, Member member, PurchaseRequest purchaseRequest) {

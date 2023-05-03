@@ -2,15 +2,15 @@ package flab.just10minutes.product.controller;
 
 import flab.just10minutes.aop.MemberLoginCheck;
 import flab.just10minutes.member.service.LoginService;
+import flab.just10minutes.product.dto.PurchaseDto;
 import flab.just10minutes.product.dto.PurchaseRequest;
 import flab.just10minutes.product.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,13 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
-    private final LoginService loginService;
 
     @MemberLoginCheck
     @PostMapping
     public ResponseEntity<HttpStatus> purchase(@RequestBody PurchaseRequest purchaseRequest) {
-        loginService.loginValidate();
         purchaseService.purchase(purchaseRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/memberHistory/{memberUniqueId}")
+    public ResponseEntity<List<PurchaseDto>> getMemberPurchaseHistory(@PathVariable("memberUniqueId") Long memberUniqueId) {
+        List<PurchaseDto> memberPurchaseHistory = purchaseService.findMemberHistory(memberUniqueId);
+        return new ResponseEntity<>(memberPurchaseHistory, HttpStatus.OK);
+    }
+
+    @GetMapping("/productHistory/{productId}")
+    public ResponseEntity<List<PurchaseDto>> getProductPurchaseHistory(@PathVariable("productId") Long productId) {
+        List<PurchaseDto> productPurchaseHistory = purchaseService.findProductHistory(productId);
+        return new ResponseEntity<>(productPurchaseHistory, HttpStatus.OK);
     }
 }
