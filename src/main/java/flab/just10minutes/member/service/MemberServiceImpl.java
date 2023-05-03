@@ -14,7 +14,6 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberDao memberDao;
 
-
     @Override
     public void saveMember(AddMemberRequest addRequest) {
         Member newMember = AddMemberRequest.to(addRequest);

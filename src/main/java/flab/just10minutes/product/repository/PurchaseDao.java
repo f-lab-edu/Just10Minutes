@@ -1,6 +1,7 @@
 package flab.just10minutes.product.repository;
 
 import flab.just10minutes.product.domain.Purchase;
+import flab.just10minutes.product.dto.PurchaseDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -16,15 +17,9 @@ public interface PurchaseDao {
 
     int findByPurchase(Purchase purchase);
 
-    List<Purchase> findByProductId(Long productId);
+    List<PurchaseDto> findByProductId(Long productId);
 
-    List<Purchase> findByMemberUniqueId(Long memberUniqueId);
-
-   // Purchase findById(Long id);
-
-
-
-
+    List<PurchaseDto> findByMemberUniqueId(Long memberUniqueId);
 
 
 }

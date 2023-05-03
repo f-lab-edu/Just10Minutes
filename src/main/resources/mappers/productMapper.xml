@@ -43,6 +43,21 @@
         WHERE productId = #{productId}
     </select>
 
+    <select id="findByStatus" parameterType="flab.just10minutes.product.domain.SaleStatus"  resultType="flab.just10minutes.product.dto.ProductDto">
+        SELECT status,
+        productId,
+        name,
+        description,
+        price,
+        totalStock,
+        personalLimitAmount,
+        startDealTime,
+        endDealTime,
+        purchasedStock
+        FROM PRODUCT
+        WHERE status = #{status}
+    </select>
+
     <update id="updatePurchasedStock" parameterType="flab.just10minutes.product.domain.Product">
         UPDATE PRODUCT
         SET

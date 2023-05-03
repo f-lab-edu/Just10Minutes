@@ -1,13 +1,16 @@
 package flab.just10minutes.product.service;
 
 import flab.just10minutes.product.domain.PurchaseHistory;
+import flab.just10minutes.product.dto.PurchaseDto;
 import flab.just10minutes.product.dto.PurchaseRequest;
+
+import java.util.List;
 
 public interface PurchaseService {
 
     void purchase(PurchaseRequest purchaseRequest);
 
-    PurchaseHistory findProductHistory(Long id);
+    List<PurchaseDto> findProductHistory(Long productId);
 
-    PurchaseHistory findMemberHistory(Long memberUniqueId);
+    List<PurchaseDto> findMemberHistory(Long memberUniqueId);
 }

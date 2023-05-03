@@ -20,7 +20,6 @@ public class Product {
     private LocalDateTime startDealTime;
     private LocalDateTime endDealTime;
     private Long purchasedStock;
-    private PurchaseHistory purchaseHistory;
 
     @Builder(builderClassName="AddProductBuilder", builderMethodName="AddProductBuilder")
     public Product(SaleStatus status, String name, String description, Long price, Long totalStock, Long personalLimitAmount, LocalDateTime startDealTime, LocalDateTime endDealTime, Long purchasedStock) {
