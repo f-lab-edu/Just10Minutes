@@ -12,6 +12,7 @@ public interface MemberDao {
     int save(Member member);
     Member findById(String id);
     String findId(String id);
-    Member findByOpenId(Long id);
+    Member findByMemberUniqueId(Long uniqueId);
+    int updateMemberBalance(Member member);
 
 }

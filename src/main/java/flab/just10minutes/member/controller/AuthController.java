@@ -1,5 +1,6 @@
 package flab.just10minutes.member.controller;
 
+import flab.just10minutes.aop.MemberLoginCheck;
 import flab.just10minutes.member.dto.LoginRequest;
 import flab.just10minutes.member.service.LoginService;
 import flab.just10minutes.member.service.MemberService;
@@ -18,22 +19,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private MemberService memberService;
+
+    private final LoginService loginService;
+    private final MemberService memberService;
 
     @PostMapping("/login")
     public ResponseEntity<HttpStatus> login(@RequestBody @Valid LoginRequest loginRequest) {
-        boolean isMember = memberService.isValidMember(loginRequest.getId(), loginRequest.getPassword());
-        if (isMember) {
-            loginService.logIn(memberService.findMemberById(loginRequest.getId()).getOpenId());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+        memberService.existMemberValidate(loginRequest.getId(), loginRequest.getPassword());
+
+        loginService.logIn(memberService.findMemberById(loginRequest.getId()).getUniqueId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/logout")
+    @MemberLoginCheck
     public ResponseEntity<HttpStatus> logout() {
         loginService.logOut();
         return new ResponseEntity<>(HttpStatus.OK);

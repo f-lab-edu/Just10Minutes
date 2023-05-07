@@ -1,10 +1,9 @@
 package flab.just10minutes.member.service;
 
 import flab.just10minutes.member.domain.Member;
-import flab.just10minutes.member.dto.AddRequest;
+import flab.just10minutes.member.dto.AddMemberRequest;
 import flab.just10minutes.member.repository.MemberDao;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,10 +14,9 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberDao memberDao;
 
-
     @Override
-    public void saveMember(AddRequest addRequest) {
-        Member newMember = AddRequest.toMemberDomain(addRequest);
+    public void saveMember(AddMemberRequest addRequest) {
+        Member newMember = AddMemberRequest.to(addRequest);
         checkDuplicateId(newMember.getId());
         int insertCount = memberDao.save(newMember);
         if (insertCount != 1) {
@@ -28,8 +26,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member findMemberById(String id) {
-        Member member = memberDao.findById(id);
-        Optional.ofNullable(member.getId()).orElseThrow(() -> new IllegalStateException("해당 아이디가 존재하지 않습니다."));
+        Member member = Optional.ofNullable(memberDao.findById(id))
+                .orElseThrow(() -> new IllegalStateException("해당 아이디가 존재하지 않습니다."));
         return member;
     }
 
@@ -40,11 +38,10 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public boolean isValidMember(String id, String password) {
-        Member member = memberDao.findById(id);
+    public void existMemberValidate(String id, String password) {
+        Member member = findMemberById(id);
         if (!member.getPassword().equals(password)) {
             throw new IllegalStateException("아이디 혹은 비밀번호를 다시 확인해주세요.");
         }
-        return true;
     }
 }

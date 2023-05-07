@@ -1,5 +1,6 @@
 package flab.just10minutes.member.dto;
 
+import flab.just10minutes.member.domain.Member;
 import lombok.*;
 
 @Getter
@@ -19,5 +20,13 @@ public class MemberInfoResponse {
         this.balance = balance;
     }
 
+    public static MemberInfoResponse to(Member member) {
+        return MemberInfoResponse.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .address(member.getAddress())
+                .balance(member.getBalance())
+                .build();
+    }
 
 }

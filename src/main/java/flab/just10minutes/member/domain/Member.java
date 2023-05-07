@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 @Getter
 public class Member {
 
-    private Long openId;
+    private Long uniqueId;
     private String id;
     private String password;
     private String name;
@@ -25,13 +25,26 @@ public class Member {
         this.balance = 0L;
     }
 
-
     @Builder(builderClassName = "AuthenticateBuilder", builderMethodName = "AuthenticateBuilder")
     public Member(String id, String password) {
         Assert.notNull(id, "id must not be null");
         Assert.notNull(password, "password must not be null");
         this.id = id;
         this.password = password;
+    }
+
+    @Builder(builderClassName = "ChangeBalanceBuilder", builderMethodName = "ChangeBalanceBuilder")
+    public Member(Long uniqueId, Long balance) {
+        this.uniqueId = uniqueId;
+        this.balance = balance;
+    }
+
+    public Member minusBalance(Long value) {
+        Long balance = this.balance - value;
+        return Member.ChangeBalanceBuilder()
+                .uniqueId(this.uniqueId)
+                .balance(balance)
+                .build();
     }
 
 

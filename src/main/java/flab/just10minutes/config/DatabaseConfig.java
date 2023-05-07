@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 
  * @Configuration을 사용해 @Bean을 등록하면 CGLIB(구체 클래스를 상속받아 클래스 생성)로 스프링 빈에 등록되어 싱글톤 보장됨.
  * **/
-@MapperScan(basePackages = "flab.just10minutes.member.repository")
+@MapperScan(basePackages = "flab.just10minutes.member.repository, flab.just10minutes.product.repository")
 /**basePackages에 지정된 경로 이하의 모든 인터페이스로 기반 @Mapper를 사용할 수 있음**/
 @Slf4j
 public class DatabaseConfig {
