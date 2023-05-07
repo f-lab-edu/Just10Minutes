@@ -3,26 +3,58 @@
 <mapper namespace="flab.just10minutes.member.repository.MemberDao">
     <insert id="save" parameterType="java.util.HashMap">
         INSERT INTO MEMBER
-        (id,
-        password,
-        name,
-        address,
-        balance)
+            (id,
+            password,
+            name,
+            address,
+            balance)
         VALUES
-        (#{id},
-        #{password},
-        #{name},
-        #{address},
-        #{balance})
+            (#{id},
+            #{password},
+            #{name},
+            #{address},
+            #{balance})
     </insert>
 
     <select id="findById" parameterType="java.lang.String" resultType="flab.just10minutes.member.domain.Member">
-        SELECT id, name, address, balance FROM MEMBER
-        WHERE MEMBER.id = #{id}
+        SELECT
+            uniqueId,
+            id,
+            name,
+            password,
+            address,
+            balance
+        FROM MEMBER
+        WHERE
+            MEMBER.id = #{id}
     </select>
 
     <select id="findId" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT id FROM MEMBER
-        WHERE MEMBER.id = #{id}
+        SELECT
+            id
+        FROM MEMBER
+        WHERE
+            MEMBER.id = #{id}
     </select>
+
+    <select id="findByMemberUniqueId" parameterType="java.lang.Long" resultType="flab.just10minutes.member.domain.Member">
+        SELECT
+            uniqueId,
+            id,
+            password,
+            name,
+            address,
+            balance
+        FROM MEMBER
+        WHERE
+            uniqueId = #{uniqueId}
+    </select>
+
+    <update id="updateMemberBalance"  parameterType="java.util.HashMap">
+        UPDATE MEMBER
+        SET
+            balance = #{balance}
+        WHERE
+            uniqueId = #{uniqueId}
+    </update>
 </mapper>

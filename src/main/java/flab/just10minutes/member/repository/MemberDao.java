@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface MemberDao {
 
-    void save(Member member);
+    int save(Member member);
     Member findById(String id);
     String findId(String id);
+    Member findByMemberUniqueId(Long uniqueId);
+    int updateMemberBalance(Member member);
 
 }
