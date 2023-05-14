@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface PurchaseDao {
-
+    
     int save(Purchase purchase);
 
     int delete(Long id);
