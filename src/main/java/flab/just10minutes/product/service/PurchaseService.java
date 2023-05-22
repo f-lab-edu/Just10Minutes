@@ -13,4 +13,7 @@ public interface PurchaseService {
     List<PurchaseDto> findProductHistory(Long productId);
 
     List<PurchaseDto> findMemberHistory(Long memberUniqueId);
+
+
+    void purchaseWithLock(PurchaseRequest purchaseRequest);
 }

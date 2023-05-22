@@ -37,4 +37,10 @@ public class PurchaseController {
         List<PurchaseDto> productPurchaseHistory = purchaseService.findProductHistory(productId);
         return new ResponseEntity<>(productPurchaseHistory, HttpStatus.OK);
     }
+
+    @PostMapping("/lock")
+    public ResponseEntity<HttpStatus> purchaseWithDistributedLock(@RequestBody PurchaseRequest purchaseRequest) {
+        purchaseService.purchaseWithLock(purchaseRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
